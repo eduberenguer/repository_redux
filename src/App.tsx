@@ -1,39 +1,31 @@
-import { useState } from 'react';
 import useNotes from './hooks/useNotes';
+import { NoteForm } from './components/note.form/noteForm';
 
 function App() {
-  const [newNote, setNewNote] = useState('');
-  const { notes, createNote } = useNotes();
+  const { notes, status, message, createNote, changeImportance, removeNote } =
+    useNotes();
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewNote(event.target.value);
-  };
+  if (status === 'loading') {
+    return <p>Loading...</p>;
+  }
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const note = {
-      content: newNote,
-      important: false,
-      createdAt: new Date().toISOString(),
-    };
-
-    createNote(note);
-    setNewNote('');
-  };
+  if (status === 'failed') {
+    return <p>{message}</p>;
+  }
 
   return (
     <>
       <h1>NOTES</h1>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <input type="text" onChange={(e) => handleChange(e)} value={newNote} />
-        <button type="submit">Create</button>
-      </form>
+      <NoteForm createNote={createNote} />
       <ul>
         {notes.map((note) => (
           <div key={note.id}>
             <li>
-              {note.content} - {String(note.important)}
+              {note.content} -
+              <button onClick={() => changeImportance(note.id)}>
+                {String(note.importance)}
+              </button>
+              <button onClick={() => removeNote('123')}>X</button>
             </li>
           </div>
         ))}

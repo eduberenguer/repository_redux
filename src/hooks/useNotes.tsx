@@ -1,25 +1,47 @@
-import { useEffect, useState } from 'react';
-import { notesRepository } from '../services/notes.repository';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { NewNote, Note } from '../types/note';
 
+import { AppDispatch, RootState } from '../store/store';
+import {
+  fetchNotes,
+  createNewNote,
+  changeImportanceNote,
+  deleteNote,
+} from '../redux/notes.thunks';
+
 const useNotes = () => {
-  const [notes, setNotes] = useState<Note[]>([]);
+  const dispatch: AppDispatch = useDispatch();
+  const { notes, status, message } = useSelector(
+    (state: RootState) => state.notes
+  );
 
   useEffect(() => {
-    const fetchNotes = async () => {
-      const totalNotes = await notesRepository.getAll();
-      setNotes(totalNotes);
-    };
+    if (status === 'idle') {
+      dispatch(fetchNotes());
+    }
+  }, [dispatch, status]);
 
-    fetchNotes();
-  }, []);
-
-  const createNote = async (note: NewNote) => {
-    const newNote = await notesRepository.create!(note);
-    setNotes([...notes, newNote]);
+  const createNote = (note: NewNote) => {
+    dispatch(createNewNote(note));
   };
 
-  return { notes, createNote };
+  const changeImportance = (id: string) => {
+    const note = notes.find((note) => note.id === id);
+    const newNote = {
+      ...note,
+      importance: !note?.importance,
+    };
+    if (note) {
+      dispatch(changeImportanceNote(newNote as Note));
+    }
+  };
+
+  const removeNote = (id: string) => {
+    dispatch(deleteNote(id));
+  };
+
+  return { notes, status, message, createNote, changeImportance, removeNote };
 };
 
 export default useNotes;
