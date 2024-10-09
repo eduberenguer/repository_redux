@@ -4,7 +4,7 @@ import { apiUrl } from '../config';
 import { NewNote, Note } from '../types/note';
 
 export const notesRepository: Repository<Note, NewNote> = {
-  getAll: async () => {
+  getAll: async (): Promise<Note[]> => {
     try {
       const response = await axios.get(apiUrl);
       return response.data;
@@ -13,7 +13,7 @@ export const notesRepository: Repository<Note, NewNote> = {
     }
   },
 
-  create: async (note: NewNote) => {
+  create: async (note: NewNote): Promise<Note> => {
     try {
       const response = await axios.post(apiUrl, note);
       return response.data as Note;
@@ -22,7 +22,7 @@ export const notesRepository: Repository<Note, NewNote> = {
     }
   },
 
-  update: async (note: Note) => {
+  update: async (note: Note): Promise<Note> => {
     try {
       const response = await axios.put(`${apiUrl}/${note.id}`, note);
       return response.data as Note;
@@ -31,7 +31,7 @@ export const notesRepository: Repository<Note, NewNote> = {
     }
   },
 
-  delete: async (id: string) => {
+  delete: async (id: string): Promise<string> => {
     try {
       const response = await axios.delete(`${apiUrl}/${id}`);
       if (response.status === 200) {

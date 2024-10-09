@@ -1,9 +1,16 @@
 {
   "notes": [
     {
-      "id": "1",
-      "content": "HTML is easy",
-      "importance": false
+      "id": "aa25",
+      "content": "123123",
+      "importance": true,
+      "createdAt": "2024-10-09T10:06:03.127Z"
+    },
+    {
+      "id": "053e",
+      "content": "asdasd",
+      "importance": true,
+      "createdAt": "2024-10-09T10:06:04.168Z"
     }
   ]
 }

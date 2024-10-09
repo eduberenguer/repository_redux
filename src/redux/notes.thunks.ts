@@ -2,15 +2,25 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { notesRepository } from '../services/notes.repository';
 import { NewNote, Note } from '../types/note';
 
-export const fetchNotes = createAsyncThunk('notes/fetchNotes', async () => {
-  try {
-    return await notesRepository.getAll();
-  } catch (error) {
-    throw new Error((error as Error).message);
-  }
-});
+interface ApiAnswer {
+  id: string;
+  content: string;
+  importance: boolean;
+  createdAt: string;
+}
 
-export const createNewNote = createAsyncThunk(
+export const fetchNotes = createAsyncThunk<ApiAnswer[], void>(
+  'notes/fetchNotes',
+  async () => {
+    try {
+      return await notesRepository.getAll();
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+);
+
+export const createNewNote = createAsyncThunk<ApiAnswer, NewNote>(
   'notes/createNewNote',
   async (note: NewNote) => {
     try {
@@ -21,7 +31,7 @@ export const createNewNote = createAsyncThunk(
   }
 );
 
-export const changeImportanceNote = createAsyncThunk(
+export const changeImportanceNote = createAsyncThunk<ApiAnswer, Note>(
   'notes/changeImportanceNote',
   async (note: Note) => {
     try {
@@ -32,12 +42,12 @@ export const changeImportanceNote = createAsyncThunk(
   }
 );
 
-export const deleteNote = createAsyncThunk(
+export const deleteNote = createAsyncThunk<string, string>(
   'notes/deleteNote',
   async (id: string, { rejectWithValue }) => {
     try {
-      const deleteNote = await notesRepository.delete!(id);
-      return deleteNote.id;
+      await notesRepository.delete!(id);
+      return id;
     } catch (error) {
       return rejectWithValue((error as Error).message);
     }
