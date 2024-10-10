@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Repository } from './repository';
 import { apiUrl } from '../config';
 import { NewNote, Note } from '../types/note';
+import { ApiResponse } from '../types/apiResponse';
 
 export const notesRepository: Repository<Note, NewNote> = {
   getAll: async (): Promise<Note[]> => {
@@ -13,7 +14,7 @@ export const notesRepository: Repository<Note, NewNote> = {
     }
   },
 
-  create: async (note: NewNote): Promise<Note> => {
+  create: async (note: NewNote): Promise<ApiResponse> => {
     try {
       const response = await axios.post(apiUrl, note);
       return response.data as Note;
@@ -22,7 +23,7 @@ export const notesRepository: Repository<Note, NewNote> = {
     }
   },
 
-  update: async (note: Note): Promise<Note> => {
+  update: async (note: Note): Promise<ApiResponse> => {
     try {
       const response = await axios.put(`${apiUrl}/${note.id}`, note);
       return response.data as Note;

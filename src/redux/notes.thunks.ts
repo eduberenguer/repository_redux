@@ -1,15 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { notesRepository } from '../services/notes.repository';
 import { NewNote, Note } from '../types/note';
+import { ApiResponse } from '../types/apiResponse';
 
-interface ApiAnswer {
-  id: string;
-  content: string;
-  importance: boolean;
-  createdAt: string;
-}
-
-export const fetchNotes = createAsyncThunk<ApiAnswer[], void>(
+export const fetchNotes = createAsyncThunk<ApiResponse[], void>(
   'notes/fetchNotes',
   async () => {
     try {
@@ -20,7 +14,7 @@ export const fetchNotes = createAsyncThunk<ApiAnswer[], void>(
   }
 );
 
-export const createNewNote = createAsyncThunk<ApiAnswer, NewNote>(
+export const createNewNote = createAsyncThunk<ApiResponse, NewNote>(
   'notes/createNewNote',
   async (note: NewNote) => {
     try {
@@ -31,7 +25,7 @@ export const createNewNote = createAsyncThunk<ApiAnswer, NewNote>(
   }
 );
 
-export const changeImportanceNote = createAsyncThunk<ApiAnswer, Note>(
+export const changeImportanceNote = createAsyncThunk<ApiResponse, Note>(
   'notes/changeImportanceNote',
   async (note: Note) => {
     try {
