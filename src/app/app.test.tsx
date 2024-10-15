@@ -53,33 +53,45 @@ describe('App', () => {
       expect(notes).toHaveLength(1);
     });
   });
+});
 
-  describe('App - Loading State', () => {
-    beforeEach(() => {
-      useNotes().status = 'loading';
-    });
+describe('status loading', () => {
+  beforeEach(() => {
+    useNotes().status = 'loading';
 
-    test('Should show loading status', async () => {
-      await waitFor(() => {
-        const loadingText = screen.getByText('loading');
-
-        expect(loadingText).toBeInTheDocument();
-      });
-    });
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
   });
 
-  describe('App - Failed State', () => {
-    beforeEach(() => {
-      useNotes().status = 'failed';
-      useNotes().message = 'Error';
+  test('Should be render App', async () => {
+    await waitFor(() => {
+      const status = screen.getByText('loading');
+
+      expect(status).toBeInTheDocument();
     });
+  });
+});
 
-    test('Should show failed status', async () => {
-      await waitFor(() => {
-        const loadingText = screen.getByText('Error');
+describe('status failed', () => {
+  beforeEach(() => {
+    useNotes().status = 'failed';
+    useNotes().message = 'Error';
 
-        expect(loadingText).toBeInTheDocument();
-      });
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+  });
+
+  test('Should be render App', async () => {
+    await waitFor(() => {
+      const status = screen.getByText('Error');
+
+      expect(status).toBeInTheDocument();
     });
   });
 });
