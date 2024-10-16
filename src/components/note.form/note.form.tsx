@@ -27,6 +27,7 @@ export const NoteForm = ({
 
   return (
     <form onSubmit={(e) => handleSubmit(e)}>
+      <label htmlFor="note">Note</label>
       <input type="text" onChange={(e) => handleChange(e)} value={newNote} />
       <button type="submit">Create</button>
     </form>

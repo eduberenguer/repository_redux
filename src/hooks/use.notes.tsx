@@ -10,7 +10,7 @@ import {
   deleteNote,
 } from '../redux/notes.thunks';
 
-const useNotes = () => {
+export const useNotes = () => {
   const dispatch: AppDispatch = useDispatch();
   const { notes, status, message } = useSelector(
     (state: RootState) => state.notes
@@ -43,5 +43,3 @@ const useNotes = () => {
 
   return { notes, status, message, createNote, changeImportance, removeNote };
 };
-
-export default useNotes;

@@ -56,4 +56,5 @@ const notesSlice = createSlice({
   },
 });
 
+export const notesActions = notesSlice.actions;
 export default notesSlice.reducer;

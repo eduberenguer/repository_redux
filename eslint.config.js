@@ -6,6 +6,7 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   { ignores: ['dist'] },
+
   {
     extends: [
       js.configs.recommended,
@@ -27,6 +28,9 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+    },
+    env: {
+      jest: true,
     },
   }
 );
