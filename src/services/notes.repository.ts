@@ -35,11 +35,16 @@ export const notesRepository: Repository<Note, NewNote> = {
   delete: async (id: string): Promise<string> => {
     try {
       const response = await axios.delete(`${apiUrl}/${id}`);
-      if (response.status === 200) {
-        return response.data;
-      } else {
+
+      if (response.status === 404) {
         throw new Error('Note not found');
       }
+
+      if (response.status === 200) {
+        return response.data;
+      }
+
+      throw new Error('Failed to delete the note');
     } catch (error) {
       throw new Error('Failed to delete the note');
     }

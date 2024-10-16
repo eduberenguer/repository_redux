@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { waitFor, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import { Provider } from 'react-redux';
 import store from '../store/store';
@@ -38,20 +38,16 @@ describe('App', () => {
     );
   });
 
-  test('Should be render App', async () => {
-    await waitFor(() => {
-      const title = screen.getByText('NOTES');
+  test('Should be render App', () => {
+    const title = screen.getByText('NOTES');
 
-      expect(title).toBeInTheDocument();
-    });
+    expect(title).toBeInTheDocument();
   });
 
-  test('Should be render App', async () => {
-    await waitFor(() => {
-      const notes = screen.getAllByRole('listitem');
+  test('Should be render App', () => {
+    const notes = screen.getAllByRole('listitem');
 
-      expect(notes).toHaveLength(1);
-    });
+    expect(notes).toHaveLength(1);
   });
 });
 
@@ -66,12 +62,10 @@ describe('status loading', () => {
     );
   });
 
-  test('Should be render App', async () => {
-    await waitFor(() => {
-      const status = screen.getByText('loading');
+  test('Should be render App', () => {
+    const status = screen.getByText('loading');
 
-      expect(status).toBeInTheDocument();
-    });
+    expect(status).toBeInTheDocument();
   });
 });
 
@@ -87,11 +81,9 @@ describe('status failed', () => {
     );
   });
 
-  test('Should be render App', async () => {
-    await waitFor(() => {
-      const status = screen.getByText('Error');
+  test('Should be render App', () => {
+    const status = screen.getByText('Error');
 
-      expect(status).toBeInTheDocument();
-    });
+    expect(status).toBeInTheDocument();
   });
 });
