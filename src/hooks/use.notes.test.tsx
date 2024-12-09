@@ -6,6 +6,13 @@ import { Provider, useDispatch } from 'react-redux';
 import store from '../store/store';
 import { useNotes } from './use.notes';
 
+import {
+  changeImportanceNote,
+  createNewNote,
+  deleteNote,
+  fetchNotes,
+} from '../redux/notes.thunks';
+
 jest.mock('../config', () => ({
   url: '',
 }));
@@ -51,7 +58,7 @@ describe('useNotes', () => {
   describe('When is rendered', () => {
     test('Then the loadNote function should be called', async () => {
       await act(async () => {
-        await userEvent.click(elements[0]);
+        store.dispatch(fetchNotes());
 
         expect(useDispatch()).toHaveBeenCalled();
       });
@@ -59,7 +66,8 @@ describe('useNotes', () => {
 
     test('Then the createNote function should be called', async () => {
       await act(async () => {
-        await userEvent.click(elements[1]);
+        await userEvent.click(elements[0]);
+        store.dispatch(createNewNote(mockNote));
 
         expect(useDispatch()).toHaveBeenCalled();
       });
@@ -67,7 +75,17 @@ describe('useNotes', () => {
 
     test('Then the changeImportance function should be called', async () => {
       await act(async () => {
+        await userEvent.click(elements[1]);
+        store.dispatch(changeImportanceNote(mockNote));
+
+        expect(useDispatch()).toHaveBeenCalled();
+      });
+    });
+
+    test('Then the removeNote function should be called', async () => {
+      await act(async () => {
         await userEvent.click(elements[2]);
+        store.dispatch(deleteNote('1'));
 
         expect(useDispatch()).toHaveBeenCalled();
       });
